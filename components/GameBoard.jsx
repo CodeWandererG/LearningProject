@@ -1,25 +1,34 @@
 import { useState } from "react"
 
 const mat = [
-    [null , "X" , null],
     [null , null , null],
-    [null , null , "O"]
+    [null , null , null],
+    [null , null , null]
 ]
 
 
-export default function GameBoard({onSelectSquare , activePlayerSymbol}){
-    const [gameBoard , setGameBoard] = useState(mat);
+export default function GameBoard({onSelectSquare , turns}){
+    let gameBoard = mat;
 
-    function handleSelectSquare(row , col){
-        setGameBoard((prevBoard) => {
-            // deep copy here refernce will not be the same
-            const updatedBoard = [...prevBoard.map(innerVal => [...innerVal])];
-            updatedBoard[row][col] = activePlayerSymbol;
-            return updatedBoard;
-        });
+    for(const turn of turns){
+        const {  square , player} = turn;
+        const {row , col} = square;
 
-        onSelectSquare();
+        gameBoard[row][col] = player;
     }
+
+    // const [gameBoard , setGameBoard] = useState(mat);
+
+    // function handleSelectSquare(row , col){
+    //     setGameBoard((prevBoard) => {
+    //         // deep copy here refernce will not be the same
+    //         const updatedBoard = [...prevBoard.map(innerVal => [...innerVal])];
+    //         updatedBoard[row][col] = activePlayerSymbol;
+    //         return updatedBoard;
+    //     });
+
+    //     onSelectSquare();
+    // }
 
     return(
         <ol id="game-board">
@@ -28,7 +37,7 @@ export default function GameBoard({onSelectSquare , activePlayerSymbol}){
                 <ol>
                     { row.map((symbol , j)=>(
                         <li key ={j}>
-                            <button onClick={()=> (handleSelectSquare(i , j))}>{symbol}</button>
+                            <button onClick={()=> (onSelectSquare(i , j))}>{symbol}</button>
                         </li>
                     ))}
                 </ol>
@@ -37,4 +46,39 @@ export default function GameBoard({onSelectSquare , activePlayerSymbol}){
             ))}
         </ol>
     )
+
+
+    // sub optimal Code  ---> 
+
+
+
+    // const [gameBoard , setGameBoard] = useState(mat);
+
+    // function handleSelectSquare(row , col){
+    //     setGameBoard((prevBoard) => {
+    //         // deep copy here refernce will not be the same
+    //         const updatedBoard = [...prevBoard.map(innerVal => [...innerVal])];
+    //         updatedBoard[row][col] = activePlayerSymbol;
+    //         return updatedBoard;
+    //     });
+
+    //     onSelectSquare();
+    // }
+
+    // return(
+    //     <ol id="game-board">
+    //         { gameBoard.map((row , i) => (
+    //             <li key = {i}>               
+    //             <ol>
+    //                 { row.map((symbol , j)=>(
+    //                     <li key ={j}>
+    //                         <button onClick={()=> (handleSelectSquare(i , j))}>{symbol}</button>
+    //                     </li>
+    //                 ))}
+    //             </ol>
+    //             </li>
+ 
+    //         ))}
+    //     </ol>
+    // )
 }
