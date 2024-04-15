@@ -1,21 +1,9 @@
 import { useState } from "react"
 
-const mat = [
-    [null , null , null],
-    [null , null , null],
-    [null , null , null]
-]
 
 
-export default function GameBoard({onSelectSquare , turns}){
-    let gameBoard = mat;
-
-    for(const turn of turns){
-        const {  square , player} = turn;
-        const {row , col} = square;
-
-        gameBoard[row][col] = player;
-    }
+export default function GameBoard({onSelectSquare , board}){
+    
 
     // const [gameBoard , setGameBoard] = useState(mat);
 
@@ -32,12 +20,12 @@ export default function GameBoard({onSelectSquare , turns}){
 
     return(
         <ol id="game-board">
-            { gameBoard.map((row , i) => (
+            { board.map((row , i) => (
                 <li key = {i}>               
                 <ol>
                     { row.map((symbol , j)=>(
                         <li key ={j}>
-                            <button onClick={()=> (onSelectSquare(i , j))}>{symbol}</button>
+                            <button onClick={()=> (onSelectSquare(i , j))} disabled={symbol != null}>{symbol}</button>
                         </li>
                     ))}
                 </ol>
